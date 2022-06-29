@@ -1,6 +1,10 @@
-# 内存管理与智能指针
+# WonderlandOfCpp
 
-## RAII与引用计数
+> 持续学习，持续更新
+
+## 内存管理与智能指针
+
+### RAII与引用计数
 
 - RAII(Resource Acquisition is Initialization)：构造时申请空间，析构时释放空间
 
@@ -8,7 +12,7 @@
 
 - 传统C++中，使用`new/delete`会导致对象的内存所有权不清晰，容易产生不销毁、多销毁的情况，引入智能指针，依赖RAII即可避免
 
-## `shared_ptr`
+### `shared_ptr`
 
 - 基于引用计数的共享内存
 
@@ -32,7 +36,7 @@
 
     C++20支持`make_shared<T[]>`
 
-## `unique_ptr`
+### `unique_ptr`
 
 - 独占内存
 
@@ -46,7 +50,7 @@
 
 - unique_ptr自定义Deleter时需要指定参数模板
 
-## `weak_ptr`
+### `weak_ptr`
 
 - 防止shared_ptr循环引用而引入的弱引用智能指针，weak_ptr也指向共享内存，但不影响引用计数
 
@@ -58,7 +62,7 @@
 
     `lock()`：资源未释放时把weak_ptr转为shared_ptr，资源已释放返回nullptr
 
-# 正则表达式
+## 正则表达式
 
 - 正则表达式描述了一种字符串匹配的模式
 
@@ -67,9 +71,9 @@
 
     `std::regex_match(std::string, std::smatch, std::regex)` std::smatch便于获取匹配的结果
 
-# 迭代器Iterator
+## 迭代器Iterator
 
-## 插入迭代器
+### 插入迭代器
 
 - `back_insert_iterator`对它所关联的容器执行`push_back()`，可缩写为`back_inserter`
 
@@ -77,7 +81,7 @@
 
 - `insert_iterator`可对它所关联的容器的指定位置插入元素，可缩写为`inserter`
 
-## 流迭代器
+### 流迭代器
 
 - `istream_iterator`是single-pass的输入迭代器，使用`operator>>`相继读入`istringstream`对象的T类型的数据，默认自动跳过空格
 
@@ -87,13 +91,13 @@
 
 - `ostream_iterator`是single-pass的输出迭代器，使用`operator<<`相继写basic_ostream对象的T类型数据，每次写操作后可写入分割字符串delimiter
 
-## 反向迭代器
+### 反向迭代器
 
 - `rbegin`, `rend`
 
-## 移动迭代器`move_iterator`
+### 移动迭代器`move_iterator`
 
-## 并行算法ExecutionPolicy
+### 并行算法ExecutionPolicy
 
 - 编译时加-O3和-ltbb
 
@@ -105,17 +109,17 @@
 
 - `std::execution::unseq`单线程中使用SIMD执行
 
-# bind expression
+## bind expression
 
 - `std::bind`用于绑定函数的部分参数，待调用时传齐参数即可
 
-## `std::bind1st`, `std::bind2nd`
+### `std::bind1st`, `std::bind2nd`
 
 - c++98中的`std::bind1st`, `std::bind2nd`初具bind思想，但功能受限
 
-## bind
+### `std::bind`
 
-- f为callable object，其后是待绑定的参数列表，未绑定的参数使用std::placeholders的占位符_1, _2 ...代替
+- f为callable object，其后是待绑定的参数列表，未绑定的参数使用std::placeholders的占位符`_1`, `_2` ...代替
 
 ```C++
     template <class F, class... Args>
@@ -126,13 +130,13 @@
 
 - `std::bind`可以使用`std::ref`或`std::cref`传引用，避免复制
 
-## `bind_front`
+### `bind_front`
 
 - C++20引入的`bind_front`, `bind_back`是对bind的简化
 
-# lambda expression
+## lambda expression
 
-## 捕获capture list
+### 捕获capture list
 
 - 针对lambda函数体中使用的局部自动对象进行捕获，static不用捕获，可直接使用
 
@@ -144,7 +148,7 @@
 
 - `*this`捕获(c++17)：this捕获存在丢失this指针指向内容的风险，所以引入`*this`
 
-## 说明符
+### 说明符
 
 - `mutable`: 值捕获的参数也可以在lambda函数体内进行修改，本质是删去了lambda类中operator()函数的const属性
 
@@ -152,7 +156,7 @@
 
 - `consteval`: 函数只能在编译时调用
 
-## 模板形参(C++20)
+### 模板形参(C++20)
 
 ```C++
     auto lambda = []<typename T>(T val) {
@@ -168,7 +172,7 @@
     } ();
 ```
 
-## 捕获时计算(C++14)
+### 捕获时计算(C++14)
 
 ```C++
     int x = 2;
@@ -178,9 +182,9 @@
     }
 ```
 
-## 使用auto避免复制(C++14)
+### 使用auto避免复制(C++14)
 
-## Lifting
+### Lifting
 
 - `std::bind`不能绑定存在重载的函数，它区分不了到底应该绑定哪个函数，但lambda能通过auto推导相应的调用版本
 
@@ -202,9 +206,9 @@
     }
 ```
 
-## 递归调用
+### 递归调用
 
-# ranges
+## ranges
 
 - ranges是C++20引入的，对泛型算法的又一大改进
 - ranges可以直接使用容器，而非迭代器指定区间范围
@@ -258,11 +262,11 @@
 
 - 使用哨兵sentinel
 
-# 模板
+## 模板
 
-模板的魅力在于将一切能在编译期间处理的问题丢给编译期进行处理，仅在运行时处理那些最核心的动态服务，进而大幅优化运行期的性能
+- 模板的魅力在于将一切能在编译期间处理的问题丢给编译期进行处理，仅在运行时处理那些最核心的动态服务，进而大幅优化运行期的性能
 
-## 函数模板function template
+### 函数模板function template
 
 - 函数模板包含两对参数：函数形参/实参、模板形参/实参
 
@@ -289,61 +293,59 @@
     }
 ```
 
-## 外部模板
+### 外部模板
 
-## alias template
+### alias template
 
 using xxx = xxx
 
-## variadic templates
+### variadic templates
 
 递归、变参模板展开、初始化列表展开
 
-## 折叠表达式
+### 折叠表达式
 
-## 非类型模板参数推导
+### 非类型模板参数推导
 
-# 面向对象Object Oriented
+## 面向对象Object Oriented
 
-## 委托构造
+### 委托构造
 
-## 继承构造
+### 继承构造
 
-## 显示虚函数重载：override final
+### 显示虚函数重载：override final
 
-## 显示禁用默认函数 =default =delete
+### 显示禁用默认函数 =default =delete
 
-## 强类型枚举
+### 强类型枚举
 
-# 并发Concurrency
+## 并发Concurrency
 
-----
+## 细枝末节
 
-# 细枝末节
-
-## `constexpr`
+### `constexpr`
 
 - `constexpr`修饰的表达式、函数在编译期即可确定结果
 
 - C++14起`constexpr`函数可以在内部使用局部变量、循环和分支等简单语句
 
-## if/switch语句中声明临时变量(C++17)
+### if/switch语句中声明临时变量(C++17)
 
-## 初始化列表initializer_list(C++11)
+### 初始化列表initializer_list(C++11)
 
-## 结构化绑定(C++17)
+### 结构化绑定(C++17)
 
-## `auto`
+### `auto`
 
-## `decltype`
+### `decltype`
 
-## `decltype(auto)`(C++14)
+### `decltype(auto)`(C++14)
 
-## `if constexpr`(C++17)
+### `if constexpr`(C++17)
 
-## range-based-for(C++11)
+### range-based-for(C++11)
 
-## `noexcept`
+### `noexcept`
 
 - C++11将异常的声明简化为函数可能抛出异常与函数不能抛出异常，并使用`noexcept`对这两种情况进行限制
 
@@ -356,7 +358,7 @@ void no_throw() noexcept;   // 如果no_throw()抛出异常，编译器会使用
 
 - `noexcept`修饰一个函数后能封锁异常扩散(sehr wichtig超级重要)
 
-## 字面量
+### 字面量
 
 - 古早的C++传特殊字符会非常麻烦，需要添加大量转义符`\`，C++11提供了原始字符串字面量的写法
 
@@ -367,19 +369,19 @@ std::string str = R"(C:\File\To\Path)"; // C++11
 
 - 自定义字面量(C++11): 重载双引号后缀运算符
 
-## 内存对齐
+### 内存对齐
 
 - C++11引入`alignof`和`alignas`支持内存对齐：前者能获得与当前平台相关的`std::size_t`类型的值，用于查询该平台的对齐方式；后者可以重新修饰某个struct的对齐方式，实现自定义对齐方式
 
-## `extern "C"`
+### `extern "C"`
 
 - 使用`extern "C"`将*.cpp中的某段代码{}起来，可以让编译器在执行到这一段时以C语言的方式处理，将C和C++分开编译、再统一链接
 
-## `std::function`(C++11)
+### `std::function`(C++11)
 
 - `std::function`可以实现对callable object的封装
 
-## 右值引用
+### 右值引用
 
 - 纯右值(pure rvalue): 纯字面量、非引用返回的临时变量、运算表达式产生的临时变量、lambda表达式
 
@@ -403,9 +405,9 @@ std::vector<int> v = func();
 
 - 右值引用的声明可以让临时对象的生命周期延长
 
-## 移动语义move semantics
+### 移动语义move semantics
 
-## 完美转发
+### 完美转发
 
 - 引用坍缩
 
